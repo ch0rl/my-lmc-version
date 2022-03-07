@@ -3,7 +3,7 @@ _loosely_ based off [lmc](https://en.wikipedia.org/wiki/Little_man_computer)
 <hr>
 
 ## Commands / Operators
-**~~ Acronym: code: description ~~**
+**Acronym: code: description**
 - `HLT`: 0: Halts execution
 - `ADD x`: 1: Adds `x` to the value in the accumulator, storing the result in the accumulator (see addressing for `x`)
 - `SUB x`: 2: Subtracts `x` from the value in the accumulator, storing the result in the accumulator (see addressing for `x`)
@@ -16,14 +16,14 @@ _loosely_ based off [lmc](https://en.wikipedia.org/wiki/Little_man_computer)
 - `OUT`: 9: Outputs the value stored in the accumulator
 
 ## Addressing
-**~~ The following only applies to: `ADD`, `SUB`, and `LDA` ~~**  
+***The following only applies to: `ADD`, `SUB`, and `LDA`***  
 Simply `x` indicates an address (ie., `SUB 6` subtracts the value at address 6 from the accumulator)  
 `$x` indicates a raw value (ie., `ADD $5` adds the number 5 to the accumulator)  
-**~~ The following applies to: `ADD`, `SUB`, `LDA`, `STA` ~~**  
+***The following applies to: `ADD`, `SUB`, `LDA`, `STA`***  
 `&x` indicates a general purpose register, where `x` is an integer (ie., `STA &3` stores the value of the accumulator in register 3)
 
 ## Registers
-**~~ Acronym: long name: initial value ~~**
+**Acronym: long name: initial value**
 - PC: Program Counter: 0
 - MAR: Memory Address Register: x
 - MDR: Memory Data Register: x
