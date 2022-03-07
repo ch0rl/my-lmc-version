@@ -1,6 +1,10 @@
 # My LMC Version
+![license](https://img.shields.io/github/license/reddersc022/my-lmc-version?style=for-the-badge) ![language](https://img.shields.io/github/languages/top/reddersc022/my-lmc-version?style=for-the-badge)  
 This is a small project of mine to replicate [Peter Higginson's Little Man Computer](https://www.peterhigginson.co.uk/LMC/) in C, and with additions.  
 /reference.md provides more detail on the program itself
+
+
+### Labels are not yet working
 
 <hr>
 Copyright (C) 2022 reddersc022
