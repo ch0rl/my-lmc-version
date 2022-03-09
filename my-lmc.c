@@ -1,5 +1,5 @@
 /*
-my-lmc - a replica of Little Man Computer
+    my-lmc - a 'replica' of Little Man Computer
     Copyright (C) 2022 reddersc022
 
     This program is free software: you can redistribute it and/or modify
