@@ -26,18 +26,17 @@
 #pragma warning(disable : 4996)
 
 /* Config */
-#define MEM_SIZE 100    // Number of addressable parts of "memory"
-#define LABEL_SIZE 10   // Max size of any labels
-#define OP_SIZE 3       // Size of operators (ie., ADD)
-#define DATA_SIZE 10    // Max size of the data (after ops)
-#define EXTRA_ROOM 20   // Max amount of whitespace in a line
-#define REG_NUM 10      // Number of registers
-#define LABEL_NUM 10    // Max number of labels
+int MEM_SIZE = 100;   // Number of addressable parts of "memory"
+int LABEL_SIZE = 10;  // Max size of any labels
+int OP_SIZE = 3;      // Size of operators (ie., ADD)
+int DATA_SIZE = 10;   // Max size of the data (after ops)
+int EXTRA_ROOM = 20;  // Max amount of whitespace in a line
+int REG_NUM = 10;     // Number of registers
+int LABEL_NUM = 10;   // Max number of labels
 char OPERATORS[][3] = {  // See reference.md
     "HLT", "ADD", "SUB", "STA", "LDA", "BRA", "BRZ", "BRP", "INP", "OUT"
 };
 size_t OP_NUM = 10;  // Remember to update
-size_t LINE_SIZE = LABEL_SIZE + OP_SIZE + DATA_SIZE + EXTRA_ROOM + 3;
 
 // Struct for labels
 typedef struct {
@@ -78,7 +77,8 @@ int next_line(char *line, FILE *f) {
  */
 int compile(int *RAM, FILE *file) {
     int ram_i = 0;
-    char *line = (char *)malloc(sizeof(char) * LINE_SIZE);
+    char *line = (char *)malloc(sizeof(char) * 
+        (LABEL_SIZE + OP_SIZE + DATA_SIZE + EXTRA_ROOM));
     char *op = (char *)malloc(sizeof(char) * OP_SIZE);
     char *data = (char *)malloc(sizeof(char) * DATA_SIZE);
     Label *labels = (Label *)malloc(sizeof(Label) * LABEL_NUM);
@@ -197,11 +197,102 @@ int compile(int *RAM, FILE *file) {
 }
 
 
+/* Displays help message */
+void display_help(void) {
+    puts("Usage: ./my-lmc <filename> <options>");
+    puts("Options:");
+    puts("    -h: Shows this information");
+    printf("    -rn <n>: Number of gp registers (default %d)\n", REG_NUM);
+    printf("    -ms <n>: 'Memory' size (default %d)\n", MEM_SIZE);
+    printf("    -ls <n>: Label size (default %d)\n", LABEL_SIZE);
+    printf("    -ds <n>: Data size (default %d)\n", DATA_SIZE);
+    printf("    -xs <n>: Extra room size (default %d)\n", EXTRA_ROOM);
+    printf("    -ln <n>: Max label num (default %d)\n", LABEL_NUM);
+}
+
+
+/*
+    Sort args
+    ---------
+    int argc: Number of args
+    char *argv[]: Array of args
+
+    returns int: Exit state (EXIT_FAILURE | EXIT_SUCCESS)
+ */
+int sort_args(int argc, char *argv[]) {
+    if (argc == 1) {
+        display_help();
+        return EXIT_FAILURE;
+    }
+
+    for (int i = 2; i < argc; i++) {
+        int n;
+        if (strcmp(argv[i], "-h") == 0) {
+            display_help();
+        } else if (strcmp(argv[i], "-rn") == 0) {
+            if (i++ < argc) {
+                n = atoi(argv[i]);
+                REG_NUM = n;
+            } else {
+                puts("Missing <n> for option -rn");
+                return EXIT_FAILURE;
+            }
+        } else if (strcmp(argv[i], "-ms") == 0) {
+            if (i++ < argc) {
+                n = atoi(argv[i]);
+                MEM_SIZE = n;
+            } else {
+                puts("Missing <n> for option -ms");
+                return EXIT_FAILURE;
+            }
+        } else if (strcmp(argv[i], "-ls") == 0) {
+            if (i++ < argc) {
+                n = atoi(argv[i]);
+                LABEL_SIZE = n;
+            } else {
+                puts("Missing <n> for option -ls");
+                return EXIT_FAILURE;
+            }
+        } else if (strcmp(argv[i], "-ds") == 0) {
+            if (i++ < argc) {
+                n = atoi(argv[i]);
+                DATA_SIZE = n;
+            } else {
+                puts("Missing <n> for option -ds");
+                return EXIT_FAILURE;
+            }
+        } else if (strcmp(argv[i], "-xs") == 0) {
+            if (i++ < argc) {
+                n = atoi(argv[i]);
+                EXTRA_ROOM = n;
+            } else {
+                puts("Missing <n> for option -xs");
+                return EXIT_FAILURE;
+            }
+        } else if (strcmp(argv[i], "-ln") == 0) {
+            if (i++ < argc) {
+                n = atoi(argv[i]);
+                LABEL_NUM = n;
+            } else {
+                puts("Missing <n> for option -ln");
+                return EXIT_FAILURE;
+            }
+        }
+    }
+
+    return EXIT_SUCCESS;
+}
+
+
 /* Main */
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        puts("Usage: ./assembly <filename>");
+    if (argc == 1) {
+        display_help();
         return EXIT_FAILURE;
+    }
+
+    if (argc > 2) {
+        sort_args(argc, argv);
     }
 
     // Program stored in file
