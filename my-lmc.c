@@ -124,7 +124,7 @@ int compile(int *RAM, FILE *file) {
 
         // Form op
         for (int i = 0; i < 3; i++) {
-            op[i] = line[line_i++];
+            strncat(op, &line[line_i++], 1);
         }
 
         // Skip whitespace
@@ -134,7 +134,7 @@ int compile(int *RAM, FILE *file) {
 
         // Form data
         for (int i = 0; line[line_i] != 0 && i < DATA_SIZE; i++) {
-            data[i] = line[line_i++];
+            strncat(data, &line[line_i++], 1);
         }
 
         // Interpret and save to 'ram'
@@ -181,7 +181,7 @@ int compile(int *RAM, FILE *file) {
 
                     if (!done) {
                         puts("Unrecognized label:");
-                        printf("    %s", data);
+                        printf("    %s\n", data);
                         return EXIT_FAILURE;
                     }
                 } else {
@@ -308,11 +308,6 @@ int main(int argc, char *argv[]) {
     if (compile(RAM, file) == EXIT_FAILURE) {
         return EXIT_FAILURE;
     }
-
-    // Testing
-    for (int i = 0; RAM[i] != 0; i++) {
-        printf("%d | ", RAM[i]);
-    } puts("");
 
     // Registers
     int PC = 0, MAR, MDR, CIR, ACC = 0;
