@@ -3,9 +3,6 @@
 This is a small project of mine to replicate [Peter Higginson's Little Man Computer](https://www.peterhigginson.co.uk/LMC/) in C, and with additions.  
 /reference.md provides more detail on the program itself
 
-
-### Labels are not yet working
-
 <hr>
 Copyright (C) 2022 reddersc022
 
